@@ -51,7 +51,7 @@
           <div class="blog-card-body">
             <span class="blog-card-category">${post.category || ''}</span>
             <span class="blog-card-date">${post.date || ''}</span>
-            <h3><a href="#" data-blog="${post.slug}">${post.title}</a></h3>
+            <h3><a href="blog-post.html?slug=${post.slug}">${post.title}</a></h3>
             <p>${post.excerpt || ''}</p>
           </div>
         </article>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章 — TST Men's Health Center</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-tst">TST</span>
+      <span class="logo-sub">男性健康中心</span>
+      <span class="logo-tag">TESTOSTERONE · STRENGTH · TRANSFORMATION</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="process.html">Process</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="contact.html" class="nav-cta">Join Now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="section" style="padding-top:8rem;max-width:800px;margin:0 auto;">
+  <div id="blog-detail">
+    <p style="color:rgba(245,240,232,0.4);text-align:center;padding:4rem 0;">加载中...</p>
+  </div>
+</article>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">TST</div>
+      <p>男性健康中心<br>TESTOSTERONE · STRENGTH · TRANSFORMATION</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="services.html">六大核心方向</a>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="about.html">关于我们</a>
+      <a href="blog.html">健康科普</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <span data-site="address">杭州市萧山区</span>
+      <span data-site="phone">电话待填</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 TST Men's Health Center</span>
+  </div>
+</footer>
+
+<script src="js/site-data.js"></script>
+<script>
+(function() {
+  const slug = new URLSearchParams(window.location.search).get('slug');
+  const container = document.getElementById('blog-detail');
+  if (!slug) {
+    container.innerHTML = '<p style="color:rgba(245,240,232,0.4);text-align:center;padding:4rem 0;">未指定文章</p>';
+    return;
+  }
+
+  fetch('/content/blog/' + slug + '.md')
+    .then(r => {
+      if (!r.ok) throw new Error('Not found');
+      return r.text();
+    })
+    .then(raw => {
+      // Parse frontmatter
+      const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+      if (!match) throw new Error('Bad format');
+
+      const meta = {};
+      match[1].split('\n').forEach(line => {
+        const idx = line.indexOf(':');
+        if (idx > 0) meta[line.slice(0,idx).trim()] = line.slice(idx+1).trim();
+      });
+      const body = match[2];
+
+      document.title = meta.title + ' — TST Men\'s Health Center';
+
+      // Simple markdown to HTML
+      let html = body
+        .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+        .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+        .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/^- (.+)$/gm, '<li>$1</li>')
+        .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+        .split('\n\n').map(p => p.trim()).filter(p => p)
+        .map(p => {
+          if (p.startsWith('<li>')) return '<ul>' + p.replace(/<\/li>\n<li>/g, '</li><li>') + '</ul>';
+          if (p.startsWith('<h')) return p;
+          return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+        })
+        .join('\n');
+
+      container.innerHTML = `
+        <div style="margin-bottom:2rem;">
+          <a href="blog.html" style="color:#B89E62;text-decoration:none;font-size:0.9rem;">← 返回科普列表</a>
+        </div>
+        <span style="color:#B89E62;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;">${meta.category || ''}</span>
+        <span style="color:rgba(245,240,232,0.3);font-size:0.85rem;margin-left:1rem;">${meta.date || ''}</span>
+        <h1 style="font-size:2.2rem;margin:0.8rem 0 2rem;line-height:1.3;">${meta.title}</h1>
+        <div class="blog-content" style="font-size:1.05rem;line-height:2;color:rgba(245,240,232,0.75);">
+          ${html}
+        </div>
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.06);text-align:center;">
+          <a href="contact.html" class="btn btn-gold" style="display:inline-block;">预约咨询</a>
+        </div>
+      `;
+    })
+    .catch(() => {
+      container.innerHTML = '<p style="color:rgba(245,240,232,0.4);text-align:center;padding:4rem 0;">文章未找到</p>';
+    });
+})();
+</script>
+</body>
+</html>
