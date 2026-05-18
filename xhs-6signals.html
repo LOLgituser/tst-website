@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, initial-scale=1.0">
+<title>精力差的6个信号 · TST评估报告</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#e8e4dc; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Noto Sans SC',sans-serif; user-select:none; }
+  .container { width:1080px; height:1440px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .card {
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    opacity:0; transition:opacity 0.4s; pointer-events:none; overflow:hidden;
+    background:#faf8f4;
+  }
+  .card.active { opacity:1; pointer-events:auto; }
+
+  /* ── Report header strip ── */
+  .report-header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:36px 60px; border-bottom:1px solid rgba(0,0,0,0.06);
+  }
+  .report-logo {
+    display:flex; align-items:center; gap:14px;
+  }
+  .report-logo-mark {
+    width:36px; height:36px; background:#1a1a1a; border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    color:#faf8f4; font-size:18px; font-weight:900; letter-spacing:-1px;
+  }
+  .report-logo-text {
+    font-size:18px; font-weight:600; color:#2a2a2a; letter-spacing:2px;
+  }
+  .report-meta {
+    font-size:16px; color:rgba(0,0,0,0.3); letter-spacing:3px; text-align:right; line-height:1.6;
+  }
+
+  /* ── Report body ── */
+  .report-body {
+    flex:1; padding:60px; display:flex; flex-direction:column; justify-content:center;
+  }
+
+  /* ── Cover ── */
+  .cover-body {
+    flex:1; display:flex; flex-direction:column; justify-content:center;
+    padding:80px 80px 60px; position:relative;
+  }
+  .cover-doc-type {
+    font-size:18px; color:rgba(0,0,0,0.3); letter-spacing:8px; margin-bottom:24px;
+  }
+  .cover-main-title {
+    font-family:'Noto Serif SC',serif;
+    font-size:88px; font-weight:900; color:#1a1a1a; line-height:1.1;
+    margin-bottom:16px;
+  }
+  .cover-main-title .mark { color:#c0392b; }
+  .cover-subtitle {
+    font-size:32px; color:rgba(0,0,0,0.35); letter-spacing:3px; margin-bottom:52px;
+  }
+  .cover-divider {
+    width:80px; height:3px; background:#c0392b; margin-bottom:40px;
+  }
+  .cover-info-row {
+    display:flex; gap:80px; margin-bottom:12px;
+  }
+  .cover-info-item {
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .cover-info-label {
+    font-size:14px; color:rgba(0,0,0,0.25); letter-spacing:3px;
+  }
+  .cover-info-value {
+    font-size:20px; color:rgba(0,0,0,0.45); letter-spacing:1px;
+  }
+  .cover-watermark {
+    position:absolute; bottom:40px; right:60px;
+    font-size:240px; font-weight:900; color:rgba(0,0,0,0.015);
+    line-height:1; pointer-events:none;
+  }
+
+  /* ── Signal cards ── */
+  .finding-num {
+    font-size:16px; font-weight:600; color:#c0392b; letter-spacing:4px;
+    margin-bottom:16px;
+  }
+  .finding-title {
+    font-family:'Noto Serif SC',serif;
+    font-size:64px; font-weight:900; color:#1a1a1a; line-height:1.18;
+    margin-bottom:24px;
+  }
+  .finding-underline {
+    width:60px; height:3px; background:#c0392b; margin-bottom:40px;
+  }
+  .finding-observation {
+    font-size:26px; color:rgba(0,0,0,0.5); line-height:1.85; margin-bottom:44px;
+  }
+  .finding-observation b { color:#1a1a1a; font-weight:600; }
+  .finding-highlight {
+    display:inline-flex; align-items:center; gap:10px;
+    background:rgba(192,57,43,0.06); padding:16px 28px; border-radius:10px;
+    border-left:3px solid #c0392b;
+    font-size:24px; color:#1a1a1a; line-height:1.7;
+  }
+  .finding-highlight .key { color:#c0392b; font-weight:700; }
+
+  .finding-data-box {
+    margin-top:40px;
+    display:flex; gap:40px;
+  }
+  .data-item {
+    background:#fff; border:1px solid rgba(0,0,0,0.05);
+    padding:24px 32px; border-radius:12px; min-width:160px;
+  }
+  .data-label {
+    font-size:14px; color:rgba(0,0,0,0.3); letter-spacing:3px; margin-bottom:8px;
+  }
+  .data-value {
+    font-size:48px; font-weight:900; color:#1a1a1a; line-height:1;
+  }
+  .data-value .unit { font-size:20px; font-weight:400; color:rgba(0,0,0,0.3); }
+  .data-bad .data-value { color:#c0392b; }
+  .data-good .data-value { color:#27ae60; }
+
+  /* ── Report footer ── */
+  .report-footer {
+    padding:24px 60px 32px; border-top:1px solid rgba(0,0,0,0.06);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .footer-page {
+    font-size:15px; color:rgba(0,0,0,0.2); letter-spacing:2px;
+  }
+  .footer-disclaimer {
+    font-size:13px; color:rgba(0,0,0,0.15); letter-spacing:1px;
+  }
+
+  /* ── CTA card ── */
+  .cta-card-bg { background:#faf8f4; }
+  .cta-body-wrap {
+    flex:1; display:flex; flex-direction:column; justify-content:center;
+    align-items:center; text-align:center; padding:80px;
+  }
+  .cta-stamp {
+    width:120px; height:120px; border:4px solid #c0392b; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:28px; font-weight:900; color:#c0392b;
+    transform:rotate(-12deg); margin-bottom:60px;
+  }
+  .cta-head {
+    font-family:'Noto Serif SC',serif;
+    font-size:64px; font-weight:900; color:#1a1a1a; line-height:1.2; margin-bottom:28px;
+  }
+  .cta-head .red { color:#c0392b; }
+  .cta-desc {
+    font-size:26px; color:rgba(0,0,0,0.45); line-height:1.7; margin-bottom:44px;
+  }
+  .cta-prescription {
+    background:#fff; border:1px solid rgba(0,0,0,0.06);
+    padding:32px 56px; border-radius:14px;
+    font-size:22px; color:rgba(0,0,0,0.4); letter-spacing:2px; line-height:2;
+  }
+  .cta-prescription b { color:#1a1a1a; font-weight:600; }
+
+  /* ── Nav ── */
+  .nav {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    display:flex; gap:20px; align-items:center; z-index:100;
+    background:rgba(30,30,30,0.88); padding:10px 24px; border-radius:36px;
+  }
+  .nav button {
+    background:none; border:none; color:rgba(255,255,255,0.5);
+    font-size:18px; cursor:pointer; padding:4px 12px;
+    font-family:inherit; letter-spacing:2px;
+  }
+  .nav button:hover { color:#fff; }
+  .nav button:disabled { color:rgba(255,255,255,0.12); cursor:default; }
+  .nav .counter {
+    color:rgba(255,255,255,0.3); font-size:15px; letter-spacing:3px; min-width:44px; text-align:center;
+  }
+  .nav .counter span { color:#fff; font-weight:600; }
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+
+  <!-- ═══ Card 1: Report Cover ═══ -->
+  <div class="card active">
+    <div class="report-header">
+      <div class="report-logo">
+        <div class="report-logo-mark">T</div>
+        <div class="report-logo-text">TST 男性健康管理中心</div>
+      </div>
+      <div class="report-meta">
+        报告编号 TSH-0612<br>2025年6月 · 杭州
+      </div>
+    </div>
+    <div class="cover-body">
+      <div class="cover-doc-type">ASSESSMENT REPORT</div>
+      <div class="cover-main-title">男性状态<br><span class="mark">初步筛查</span>报告</div>
+      <div class="cover-subtitle">你身体的6个早期信号</div>
+      <div class="cover-divider"></div>
+      <div class="cover-info-row">
+        <div class="cover-info-item">
+          <div class="cover-info-label">评估维度</div>
+          <div class="cover-info-value">睾酮 · 代谢 · 精力 · 情绪</div>
+        </div>
+        <div class="cover-info-item">
+          <div class="cover-info-label">适用人群</div>
+          <div class="cover-info-value">30-45岁男性</div>
+        </div>
+      </div>
+      <div class="cover-watermark">TST</div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 1 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断</span>
+    </div>
+  </div>
+
+  <!-- ═══ Card 2: Finding 1 ═══ -->
+  <div class="card">
+    <div class="report-header">
+      <div class="report-logo">
+        <div class="report-logo-mark">T</div>
+        <div class="report-logo-text">TST 男性健康管理中心</div>
+      </div>
+      <div class="report-meta">初步筛查报告</div>
+    </div>
+    <div class="report-body">
+      <div class="finding-num">FINDING 01</div>
+      <div class="finding-title">闹钟响三次<br>还是起不来</div>
+      <div class="finding-underline"></div>
+      <div class="finding-observation">
+        患者自述每日睡眠时长充足，但晨起后持续疲劳，清醒困难，<br>
+        白天精神恢复缓慢。排除睡眠呼吸暂停等器质性因素后，<br>
+        <b>提示可能与睾酮水平偏低导致的深度睡眠质量下降有关。</b>
+      </div>
+      <div class="finding-highlight">
+        ⚠️ <span>睾酮参与调节睡眠结构。<span class="key">低睾酮 = 深度睡眠减少 = 恢复不充分</span></span>
+      </div>
+      <div class="finding-data-box">
+        <div class="data-item data-bad">
+          <div class="data-label">睡眠时长</div>
+          <div class="data-value">8<span class="unit">h</span></div>
+        </div>
+        <div class="data-item data-bad">
+          <div class="data-label">有效恢复</div>
+          <div class="data-value">≈5<span class="unit">h</span></div>
+        </div>
+        <div class="data-item">
+          <div class="data-label">深度睡眠占比</div>
+          <div class="data-value" style="color:#c0392b;">↓<span class="unit">偏低</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 2 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断</span>
+    </div>
+  </div>
+
+  <!-- ═══ Card 3: Finding 2 ═══ -->
+  <div class="card">
+    <div class="report-header">
+      <div class="report-logo"><div class="report-logo-mark">T</div><div class="report-logo-text">TST 男性健康管理中心</div></div>
+      <div class="report-meta">初步筛查报告</div>
+    </div>
+    <div class="report-body">
+      <div class="finding-num">FINDING 02</div>
+      <div class="finding-title">下午三四点<br>脑子像糊了</div>
+      <div class="finding-underline"></div>
+      <div class="finding-observation">
+        患者报告下午时段注意力显著下降，思维迟钝，无法维持<br>
+        连续深度工作。该症状与<b>中枢神经系统缺乏睾酮支持</b>的<br>
+        典型表现一致。睾酮影响多巴胺和去甲肾上腺素通路。
+      </div>
+      <div class="finding-highlight">
+        ⚠️ <span><span class="key">注意力断崖</span>不是意志力问题，是神经递质调节异常</span>
+      </div>
+      <div class="finding-data-box">
+        <div class="data-item data-bad">
+          <div class="data-label">上午专注力</div>
+          <div class="data-value">90<span class="unit">min</span></div>
+        </div>
+        <div class="data-item data-bad">
+          <div class="data-label">下午专注力</div>
+          <div class="data-value">≈25<span class="unit">min</span></div>
+        </div>
+        <div class="data-item">
+          <div class="data-label">降幅</div>
+          <div class="data-value" style="color:#c0392b;">-72<span class="unit">%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 3 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断</span>
+    </div>
+  </div>
+
+  <!-- ═══ Card 4: Finding 3 ═══ -->
+  <div class="card">
+    <div class="report-header">
+      <div class="report-logo"><div class="report-logo-mark">T</div><div class="report-logo-text">TST 男性健康管理中心</div></div>
+      <div class="report-meta">初步筛查报告</div>
+    </div>
+    <div class="report-body">
+      <div class="finding-num">FINDING 03</div>
+      <div class="finding-title">以前轻松举的<br>重量现在费劲了</div>
+      <div class="finding-underline"></div>
+      <div class="finding-observation">
+        患者报告日常力量训练中承受重量下降、组间恢复时间延长。<br>
+        <b>睾酮是维持骨骼肌蛋白合成的核心激素。</b>睾酮偏低时，<br>
+        肌肉修复和生长效率下降——同样的训练，回报减半。
+      </div>
+      <div class="finding-highlight">
+        ⚠️ <span><span class="key">力量下降≠训练不够。</span>可能是身体的合成代谢开关被调低了</span>
+      </div>
+      <div class="finding-data-box">
+        <div class="data-item data-bad">
+          <div class="data-label">睾酮水平</div>
+          <div class="data-value">&lt;300<span class="unit">ng/dL</span></div>
+        </div>
+        <div class="data-item data-good">
+          <div class="data-label">正常下限</div>
+          <div class="data-value">300<span class="unit">ng/dL</span></div>
+        </div>
+        <div class="data-item">
+          <div class="data-label">推荐范围</div>
+          <div class="data-value" style="color:#27ae60;">500+<span class="unit">ng/dL</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 4 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断</span>
+    </div>
+  </div>
+
+  <!-- ═══ Card 5: Finding 4 ═══ -->
+  <div class="card">
+    <div class="report-header">
+      <div class="report-logo"><div class="report-logo-mark">T</div><div class="report-logo-text">TST 男性健康管理中心</div></div>
+      <div class="report-meta">初步筛查报告</div>
+    </div>
+    <div class="report-body">
+      <div class="finding-num">FINDING 04</div>
+      <div class="finding-title">肚子上的肉<br>怎么减都不走</div>
+      <div class="finding-underline"></div>
+      <div class="finding-observation">
+        患者报告腹部脂肪堆积顽固，饮食控制和有氧运动效果有限。<br>
+        这符合<b>睾酮偏低→基础代谢率下降</b>的典型脂肪分布模式。<br>
+        腹部脂肪本身进一步将睾酮芳香化为雌激素——恶性循环。
+      </div>
+      <div class="finding-highlight">
+        ⚠️ <span><span class="key">低睾酮 → 代谢减速 → 脂肪囤积 → 睾酮更低。</span>一个死循环</span>
+      </div>
+      <div class="finding-data-box">
+        <div class="data-item data-bad">
+          <div class="data-label">腰围</div>
+          <div class="data-value">&gt;90<span class="unit">cm</span></div>
+        </div>
+        <div class="data-item">
+          <div class="data-label">腹型肥胖风险</div>
+          <div class="data-value" style="color:#c0392b;">⚠️<span class="unit">偏高</span></div>
+        </div>
+        <div class="data-item">
+          <div class="data-label">代谢年龄</div>
+          <div class="data-value" style="color:#c0392b;">+5<span class="unit">岁</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 5 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断</span>
+    </div>
+  </div>
+
+  <!-- ═══ Card 6: Finding 5 ═══ -->
+  <div class="card">
+    <div class="report-header">
+      <div class="report-logo"><div class="report-logo-mark">T</div><div class="report-logo-text">TST 男性健康管理中心</div></div>
+      <div class="report-meta">初步筛查报告</div>
+    </div>
+    <div class="report-body">
+      <div class="finding-num">FINDING 05</div>
+      <div class="finding-title">一点小事就烦<br>事后又后悔</div>
+      <div class="finding-underline"></div>
+      <div class="finding-observation">
+        患者报告近期情绪易激惹，对日常琐事反应过度，事后有悔意。<br>
+        <b>睾酮参与调节杏仁核和前额叶的情绪控制回路。</b><br>
+        睾酮偏低的男性对压力刺激的自主反应强度显著增加。
+      </div>
+      <div class="finding-highlight">
+        ⚠️ <span><span class="key">不是脾气差，是大脑的"镇静系统"燃料不足</span></span>
+      </div>
+      <div class="finding-data-box">
+        <div class="data-item data-bad">
+          <div class="data-label">应激反应</div>
+          <div class="data-value">↑<span class="unit">偏高</span></div>
+        </div>
+        <div class="data-item data-bad">
+          <div class="data-label">情绪恢复</div>
+          <div class="data-value">↓<span class="unit">偏慢</span></div>
+        </div>
+        <div class="data-item">
+          <div class="data-label">皮质醇</div>
+          <div class="data-value" style="color:#c0392b;">⚠️<span class="unit">异常</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 6 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断</span>
+    </div>
+  </div>
+
+  <!-- ═══ Card 7: Finding 6 ═══ -->
+  <div class="card">
+    <div class="report-header">
+      <div class="report-logo"><div class="report-logo-mark">T</div><div class="report-logo-text">TST 男性健康管理中心</div></div>
+      <div class="report-meta">初步筛查报告</div>
+    </div>
+    <div class="report-body">
+      <div class="finding-num">FINDING 06</div>
+      <div class="finding-title">以前喜欢的<br>提不起劲了</div>
+      <div class="finding-underline"></div>
+      <div class="finding-observation">
+        患者报告对既往兴趣活动失去热情，日常动力明显下降。<br>
+        <b>睾酮通过多巴胺系统影响奖励感知和动机驱动。</b><br>
+        低睾酮 ≠ 抑郁，但两者的行为表现有重叠——需鉴别诊断。
+      </div>
+      <div class="finding-highlight">
+        ⚠️ <span><span class="key">不是心态崩了，是身体的"动力燃料"在往下掉</span></span>
+      </div>
+      <div class="finding-data-box">
+        <div class="data-item data-bad">
+          <div class="data-label">动力评分</div>
+          <div class="data-value">3<span class="unit">/10</span></div>
+        </div>
+        <div class="data-item data-good">
+          <div class="data-label">基线</div>
+          <div class="data-value">7<span class="unit">/10</span></div>
+        </div>
+        <div class="data-item">
+          <div class="data-label">降幅</div>
+          <div class="data-value" style="color:#c0392b;">-57<span class="unit">%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 7 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断</span>
+    </div>
+  </div>
+
+  <!-- ═══ Card 8: CTA ═══ -->
+  <div class="card cta-card-bg">
+    <div class="report-header">
+      <div class="report-logo"><div class="report-logo-mark">T</div><div class="report-logo-text">TST 男性健康管理中心</div></div>
+      <div class="report-meta">建议与下一步</div>
+    </div>
+    <div class="cta-body-wrap">
+      <div class="cta-stamp">建议</div>
+      <div class="cta-head">中<span class="red">3条</span>以上？<br>该查激素了</div>
+      <div class="cta-desc">一次激素六项＋代谢评估<br>花一顿饭钱，拿到你的身体说明书</div>
+      <div class="cta-prescription">
+        杭州萧山 · <b>TST 男性健康管理中心</b><br>
+        私信 <b>「报告」</b> 领指标梳理表
+      </div>
+    </div>
+    <div class="report-footer">
+      <span class="footer-page">第 8 页 / 共 8 页</span>
+      <span class="footer-disclaimer">* 本报告为健康知识参考，不构成医疗诊断 · 建议到院进一步评估</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button id="prev">← 上一张</button>
+  <div class="counter"><span id="current">1</span> / 8</div>
+  <button id="next">下一张 →</button>
+</div>
+
+<script>
+  const cards=document.querySelectorAll('.card'),cEl=document.getElementById('current'),pb=document.getElementById('prev'),nb=document.getElementById('next');
+  let i=0;
+  function show(n){cards.forEach(c=>c.classList.remove('active'));cards[n].classList.add('active');cEl.textContent=n+1;pb.disabled=n===0;nb.disabled=n===cards.length-1;}
+  pb.onclick=()=>{if(i>0)show(--i)};
+  nb.onclick=()=>{if(i<cards.length-1)show(++i)};
+  document.onkeydown=e=>{if(e.key==='ArrowLeft'&&i>0)show(--i);if(e.key==='ArrowRight'&&i<cards.length-1)show(++i);};
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+node_modules/
+.snap/
+.DS_Store
+*-backup*
+index-original*
+index-v3*
+*-3d*
+package-lock.json

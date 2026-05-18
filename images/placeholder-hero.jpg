@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#2A2A2A"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Didot,Georgia,serif" font-size="20" fill="rgba(255,255,255,0.08)"
+        letter-spacing="6">HERO IMAGE PLACEHOLDER · 1920×1080</text>
+</svg>

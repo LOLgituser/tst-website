@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TST 内容管理</title>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <style>
+    body { background: #0A0A0A; }
+    /* Dark theme for CMS to match TST brand */
+    [class*="css"] { 
+      --background: #0A0A0A;
+      --background-main: #111;
+      --text-primary: #F5F0E8;
+      --primary: #B89E62;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Redirect to CMS
+    CMS.init()
+  </script>
+</body>
+</html>

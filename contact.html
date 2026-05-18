@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="联系 TST 男性健康管理中心——杭州萧山，电话预约，一对一私密诊疗。">
+  <title>联系我们 — TST Men's Health Center</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-tst">TST</span>
+      <span class="logo-sub">男性健康中心</span>
+      <span class="logo-tag">TESTOSTERONE &middot; STRENGTH &middot; TRANSFORMATION</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="process.html">Process</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="contact.html" class="nav-cta">Join Now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <span class="section-label">Contact</span>
+  <h1>联系我们</h1>
+  <p>Find Us.<br>杭州市萧山区。一对一私密到院，请提前预约。</p>
+</header>
+
+<section class="section">
+  <div class="contact-grid">
+
+    <!-- Info + Form -->
+    <div>
+      <ul class="contact-info-list">
+        <li>
+          <span class="ci-label">Address</span>
+          <span data-site="address">杭州市萧山区 [具体地址待填]</span>
+        </li>
+        <li>
+          <span class="ci-label">Phone</span>
+          <span data-site="phone">[电话待填]</span>
+        </li>
+        <li>
+          <span class="ci-label">WeChat</span>
+          <span data-site="wechat">[微信号待填]</span>
+        </li>
+        <li>
+          <span class="ci-label">Hours</span>
+          <span data-site="hours">周一至周六 09:00-18:00（周日休诊）</span>
+        </li>
+        <li>
+          <span class="ci-label">Booking</span>
+          <span data-site="booking_note">电话 / 微信预约，不接受无预约直接到院</span>
+        </li>
+      </ul>
+
+      <h3 style="font-family:var(--font-cn);font-weight:400;font-size:1.2rem;margin:2rem 0 1.5rem;">预约表单</h3>
+      <form name="booking" id="bookingForm" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="booking">
+        <p style="display:none"><label>Don't fill this: <input name="bot-field"></label></p>
+        <div class="form-group">
+          <label for="name">Name 姓名</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone 手机号</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="interest">Area of Interest 关注方向</label>
+          <select id="interest" name="interest">
+            <option value="">请选择</option>
+            <option value="testosterone">睾酮优化</option>
+            <option value="ed">ED 科学应对</option>
+            <option value="antiaging">男性抗衰</option>
+            <option value="metabolic">代谢重塑</option>
+            <option value="peptides">多肽精准营养</option>
+            <option value="mental">男性心理</option>
+            <option value="unsure">不确定，需要评估</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="preferred_date">Preferred Date 期望到院时间</label>
+          <input type="date" id="preferred_date" name="preferred_date">
+        </div>
+        <div class="form-group">
+          <label for="notes">Notes 备注（选填）</label>
+          <textarea id="notes" name="notes"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold">提交预约申请</button>
+      </form>
+    </div>
+
+    <!-- Map + Directions -->
+    <div>
+      <div class="map-placeholder">地图嵌入占位 · Baidu/Amap</div>
+
+      <div style="margin-top:2rem;">
+        <h3 style="font-family:var(--font-cn);font-weight:400;font-size:1.1rem;margin-bottom:1rem;">到达指引</h3>
+        <p class="text-small" style="color:rgba(245,240,232,0.45);line-height:2;">
+          驾车：请导航至 [地址待填]，周边停车指引 [待填]<br>
+          地铁：[最近地铁站待填]<br>
+          公交：[最近公交站待填]
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">TST</div>
+      <p>男性健康中心<br>TESTOSTERONE · STRENGTH · TRANSFORMATION</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="services.html#testosterone">睾酮优化</a>
+      <a href="services.html#ed">ED 科学应对</a>
+      <a href="services.html#antiaging">男性抗衰</a>
+      <a href="services.html#metabolic">代谢重塑</a>
+      <a href="services.html#peptides">多肽精准营养</a>
+      <a href="services.html#mental">男性心理</a>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="about.html">关于我们</a>
+      <a href="process.html">加入流程</a>
+      <a href="community.html">TST 社群</a>
+      <a href="blog.html">健康科普</a>
+      <a href="contact.html">联系我们</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <span data-site="address">杭州市萧山区</span>
+      <span data-site="phone">电话待填</span>
+      <span data-site="hours">周一至周六 09:00-18:00</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 TST Men's Health Center</span>
+    <span>浙ICP备XXXXXXXX号</span>
+  </div>
+</footer>
+
+<script src="js/site-data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

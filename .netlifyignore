@@ -1,0 +1,8 @@
+node_modules/
+index-backup*
+index-v3*
+index-original*
+*-backup*
+.git/
+*.md
+.snap/

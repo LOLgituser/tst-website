@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#2A2A2A"/>
+  <text x="400" y="500" dominant-baseline="middle" text-anchor="middle"
+        font-family="Didot,Georgia,serif" font-size="16" fill="rgba(245,240,232,0.06)"
+        letter-spacing="4">SERVICE IMAGE · 800×1000</text>
+</svg>
