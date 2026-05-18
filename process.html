@@ -130,5 +130,11 @@
 
 <script src="js/site-data.js"></script>
 <script src="js/main.js"></script>
+<script>
+// Redirect Netlify Identity invite tokens to /admin where the Identity widget lives
+if (window.location.hash && window.location.hash.indexOf('invite_token') !== -1) {
+  window.location.href = '/admin/' + window.location.hash;
+}
+</script>
 </body>
 </html>
