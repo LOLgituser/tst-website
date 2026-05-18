@@ -1,9 +1,9 @@
 ---
 title: 为什么男性30岁后睾酮开始下降？
 date: 2026-05-10
-category: 睾酮优化
+image: /images/uploads/w700d1q75cms.jpg
 excerpt: 睾酮水平从30岁开始以每年约1%的速度自然下降。这不是衰老的必然，而是可以干预的信号。
-image: /images/placeholder-hero.jpg
+category: 睾酮优化
 ---
 
 ## 睾酮下降的真相
