@@ -1,77 +1,92 @@
-// Preview templates — shows content styled like the actual TST site
-CMS.registerPreviewTemplate("site-settings", createPreview(function(entry) {
-  var data = entry.get('data').toJS();
-  return '<div style="background:#0A0A0A;color:#F5F0E8;padding:2rem;font-family:sans-serif;min-height:100vh">' +
-    '<h3 style="color:#B89E62;font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem">📋 站点联系信息预览</h3>' +
-    '<table style="width:100%;border-collapse:collapse">' +
-    row('诊所名称', data.clinic_name) +
-    row('地址', data.address) +
-    row('电话', data.phone) +
-    row('微信', data.wechat) +
-    row('营业时间', data.hours) +
-    row('预约说明', data.booking_note) +
-    row('驾车指引', data.driving) +
-    row('地铁', data.subway) +
-    '</table>' +
-    '<p style="color:rgba(245,240,232,0.3);font-size:0.7rem;margin-top:2rem">此信息将显示在页脚和联系页面</p></div>';
-}));
+// Preview templates for Decap CMS v3
+// Shows content styled to match TST site's black-gold aesthetic
 
-CMS.registerPreviewTemplate("hero", createPreview(function(entry) {
-  var data = entry.get('data').toJS();
-  return '<div style="background:#0A0A0A;color:#F5F0E8;padding:2rem;font-family:sans-serif;min-height:100vh">' +
-    '<h3 style="color:#B89E62;font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem">🏠 Hero 大标题预览</h3>' +
-    '<div style="padding:4rem 2rem;text-align:center;background:linear-gradient(180deg,#111 0%,#0A0A0A 100%);border:1px solid rgba(255,255,255,0.05)">' +
-    '<h1 style="font-size:3rem;font-weight:700;margin:0 0 1rem;letter-spacing:0.05em">' + (data.title || 'RECLAIM YOUR PRIME') + '</h1>' +
-    '<p style="color:rgba(245,240,232,0.5);font-size:1.1rem;margin:0 0 2rem">' + (data.subtitle || '') + '</p>' +
-    '<span style="display:inline-block;background:#B89E62;color:#0A0A0A;padding:0.8rem 2rem;font-weight:600">' + (data.cta_text || '申请加入') + '</span>' +
-    '</div></div>';
-}));
+var h = React.createElement;
 
-CMS.registerPreviewTemplate("about", createPreview(function(entry) {
-  var data = entry.get('data').toJS();
-  return '<div style="background:#0A0A0A;color:#F5F0E8;padding:2rem;font-family:sans-serif;min-height:100vh">' +
-    '<h3 style="color:#B89E62;font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem">📄 关于我们预览</h3>' +
-    '<h2 style="font-size:2rem;margin:0 0 1rem">' + (data.heading || '') + '</h2>' +
-    '<div style="color:rgba(245,240,232,0.7);line-height:1.8;margin-bottom:2rem">' + (data.description || '') + '</div>' +
-    '<h3 style="color:#B89E62;margin-bottom:0.5rem">使命</h3>' +
-    '<div style="color:rgba(245,240,232,0.7);line-height:1.8">' + (data.mission || '') + '</div></div>';
-}));
+function PreviewWrap(title, content) {
+  return h('div', {style: {background:'#0A0A0A',color:'#F5F0E8',padding:'2rem',fontFamily:'sans-serif',minHeight:'100vh'}},
+    h('h3', {style: {color:'#B89E62',fontSize:'0.8rem',letterSpacing:'0.1em',marginBottom:'1rem'}}, title),
+    content
+  );
+}
 
-CMS.registerPreviewTemplate("blog", createPreview(function(entry) {
-  var data = entry.get('data').toJS();
-  return '<div style="background:#0A0A0A;color:#F5F0E8;padding:2rem;font-family:sans-serif;min-height:100vh;max-width:800px;margin:0 auto">' +
-    '<h3 style="color:#B89E62;font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem">📝 文章详情预览</h3>' +
-    '<span style="color:#B89E62;font-size:0.8rem;text-transform:uppercase">' + (data.category || '') + '</span>' +
-    '<span style="color:rgba(245,240,232,0.3);font-size:0.8rem;margin-left:1rem">' + (data.date || '') + '</span>' +
-    '<h1 style="font-size:2rem;margin:0.5rem 0 1.5rem">' + (data.title || '') + '</h1>' +
-    '<p style="color:rgba(245,240,232,0.4);font-style:italic;border-left:2px solid #B89E62;padding-left:1rem">' + (data.excerpt || '') + '</p>' +
-    '<div style="color:rgba(245,240,232,0.7);line-height:2;margin-top:2rem">' + (data.body || '') + '</div>' +
-    '<p style="color:rgba(245,240,232,0.3);font-size:0.7rem;margin-top:2rem">📐 封面图建议：1200×630px，用于列表卡片和社交分享</p></div>';
-}));
+CMS.registerPreviewTemplate("blog", function(props) {
+  var d = props.entry.get('data').toJS();
+  return PreviewWrap('📝 文章预览',
+    h('div', {style: {maxWidth:'800px',margin:'0 auto'}},
+      h('span', {style: {color:'#B89E62',fontSize:'0.8rem',textTransform:'uppercase'}}, d.category || ''),
+      h('span', {style: {color:'rgba(245,240,232,0.3)',fontSize:'0.8rem',marginLeft:'1rem'}}, d.date || ''),
+      h('h1', {style: {fontSize:'2rem',margin:'0.5rem 0 1.5rem'}}, d.title || ''),
+      h('p', {style: {color:'rgba(245,240,232,0.4)',fontStyle:'italic',borderLeft:'2px solid #B89E62',paddingLeft:'1rem'}}, d.excerpt || ''),
+      h('div', {style: {color:'rgba(245,240,232,0.7)',lineHeight:'2',marginTop:'2rem'}}, d.body || ''),
+      h('p', {style: {color:'rgba(245,240,232,0.25)',fontSize:'0.7rem',marginTop:'2rem'}}, '📐 封面图：1200×630px')
+    )
+  );
+});
 
-CMS.registerPreviewTemplate("services", createPreview(function(entry) {
-  var items = entry.getIn(['data', 'items']);
-  var html = '<div style="background:#0A0A0A;color:#F5F0E8;padding:2rem;font-family:sans-serif;min-height:100vh"><h3 style="color:#B89E62;font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem">💪 六大服务预览</h3>';
+CMS.registerPreviewTemplate("site-settings", function(props) {
+  var d = props.entry.get('data').toJS();
+  var rows = [
+    ['诊所名称', d.clinic_name],
+    ['地址', d.address],
+    ['电话', d.phone],
+    ['微信', d.wechat],
+    ['营业时间', d.hours],
+    ['预约说明', d.booking_note],
+    ['驾车指引', d.driving],
+    ['地铁', d.subway]
+  ];
+  var children = [h('p', {style: {color:'rgba(245,240,232,0.3)',fontSize:'0.7rem',marginTop:'2rem'}}, '此信息显示在网站页脚和联系页面')];
+  rows.forEach(function(r) {
+    children.unshift(
+      h('div', {style: {borderBottom:'1px solid rgba(255,255,255,0.05)',padding:'0.8rem 0',display:'flex'}},
+        h('span', {style: {color:'rgba(245,240,232,0.4)',width:'120px',flexShrink:0}}, r[0]),
+        h('span', {}, r[1] || h('span', {style: {color:'rgba(245,240,232,0.15)',fontStyle:'italic'}}, '未填写'))
+      )
+    );
+  });
+  return PreviewWrap('📋 站点联系信息预览',
+    h('div', {style: {maxWidth:'600px'}}, children)
+  );
+});
+
+CMS.registerPreviewTemplate("hero", function(props) {
+  var d = props.entry.get('data').toJS();
+  return PreviewWrap('🏠 首页 Hero 预览',
+    h('div', {style: {padding:'4rem 2rem',textAlign:'center',background:'linear-gradient(180deg,#111,#0A0A0A)',border:'1px solid rgba(255,255,255,0.05)'}},
+      h('h1', {style: {fontSize:'3rem',fontWeight:700,margin:'0 0 1rem',letterSpacing:'0.05em'}}, d.title || 'RECLAIM YOUR PRIME'),
+      h('p', {style: {color:'rgba(245,240,232,0.5)',fontSize:'1.1rem',margin:'0 0 2rem'}}, d.subtitle || ''),
+      h('span', {style: {display:'inline-block',background:'#B89E62',color:'#0A0A0A',padding:'0.8rem 2rem',fontWeight:600}}, d.cta_text || '申请加入')
+    )
+  );
+});
+
+CMS.registerPreviewTemplate("about", function(props) {
+  var d = props.entry.get('data').toJS();
+  return PreviewWrap('📄 关于我们预览',
+    h('div', {style: {maxWidth:'700px'}},
+      h('h2', {style: {fontSize:'2rem',margin:'0 0 1rem'}}, d.heading || ''),
+      h('div', {style: {color:'rgba(245,240,232,0.7)',lineHeight:'1.8',marginBottom:'2rem'}}, d.description || ''),
+      h('h3', {style: {color:'#B89E62',marginBottom:'0.5rem'}}, '使命'),
+      h('div', {style: {color:'rgba(245,240,232,0.7)',lineHeight:'1.8'}}, d.mission || '')
+    )
+  );
+});
+
+CMS.registerPreviewTemplate("services", function(props) {
+  var items = props.entry.getIn(['data','items']);
+  var cards = [];
   if (items) {
     items.forEach(function(item) {
       var d = item.toJS();
-      html += '<div style="background:#111;border:1px solid rgba(255,255,255,0.05);padding:1.5rem;margin-bottom:0.8rem">' +
-        '<h4 style="margin:0 0 0.3rem;color:#B89E62;font-size:0.7rem;text-transform:uppercase">' + (d.name_en || '') + '</h4>' +
-        '<h3 style="margin:0 0 0.5rem;font-size:1.2rem">' + (d.name_cn || '') + '</h3>' +
-        '<p style="color:rgba(245,240,232,0.5);margin:0;font-size:0.9rem">' + (d.tagline || '') + '</p></div>';
+      cards.push(
+        h('div', {style: {background:'#111',border:'1px solid rgba(255,255,255,0.05)',padding:'1.5rem',marginBottom:'0.8rem'}},
+          h('div', {style: {color:'#B89E62',fontSize:'0.7rem',textTransform:'uppercase',marginBottom:'0.3rem'}}, d.name_en || ''),
+          h('h3', {style: {margin:'0 0 0.5rem',fontSize:'1.2rem'}}, d.name_cn || ''),
+          h('p', {style: {color:'rgba(245,240,232,0.5)',margin:0,fontSize:'0.9rem'}}, d.tagline || '')
+        )
+      );
     });
   }
-  return html + '</div>';
-}));
-
-function createPreview(fn) {
-  return {
-    component: {
-      preview: function(props) { return { render: function() { return fn(props.entry); } }; }
-    }
-  };
-}
-
-function row(label, value) {
-  return '<tr style="border-bottom:1px solid rgba(255,255,232,0.05)"><td style="padding:0.8rem 1rem;color:rgba(245,240,232,0.4);width:120px;vertical-align:top">' + label + '</td><td style="padding:0.8rem 1rem">' + (value || '<span style="color:rgba(245,240,232,0.2);font-style:italic">未填写</span>') + '</td></tr>';
-}
+  return PreviewWrap('💪 六大服务预览', h('div', {style: {maxWidth:'600px'}}, cards));
+});
