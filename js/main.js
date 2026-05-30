@@ -87,4 +87,25 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // --- Hero Video Sound Toggle ---
+  const soundToggle = document.querySelector('.hero-sound-toggle');
+  const heroVideo = document.querySelector('.page-header-video');
+  const iconOff = document.querySelector('.icon-sound-off');
+  const iconOn = document.querySelector('.icon-sound-on');
+  if (soundToggle && heroVideo) {
+    soundToggle.addEventListener('click', function () {
+      if (heroVideo.muted) {
+        heroVideo.muted = false;
+        iconOff.style.display = 'none';
+        iconOn.style.display = 'block';
+        soundToggle.setAttribute('title', '静音');
+      } else {
+        heroVideo.muted = true;
+        iconOff.style.display = 'block';
+        iconOn.style.display = 'none';
+        soundToggle.setAttribute('title', '开启声音');
+      }
+    });
+  }
+
 });
